@@ -15,11 +15,22 @@ latest_price = df['Close'].iloc[-1]
 yesterday_price = df['Close'].iloc[-2]
 price_change = latest_price - yesterday_price
 
-# 4. Draw the KPI boxes at the top
-col1, col2, col3 = st.columns(3)
+# --- NEW: Pull the AI Prediction ---
+# We take the value from the last row of the 'Prediction' column
+prediction_val = df['Prediction'].iloc[-1]
+# -----------------------------------
+
+# 4. Draw the KPI boxes at the top (Expanded to 4 columns)
+col1, col2, col3, col4 = st.columns(4)
+
 col1.metric("Latest Price (USD)", f"${latest_price:,.2f}", f"${price_change:,.2f}")
-col2.metric("7-Day Moving Avg", f"${df['7-Day_MA'].iloc[-1]:,.2f}")
-col3.metric("Latest Volume", f"{df['Volume'].iloc[-1]:,}")
+
+# --- NEW: Prediction Metric ---
+col2.metric("🚀 AI Forecast (Tomorrow)", f"${prediction_val:,.2f}")
+# ------------------------------
+
+col3.metric("7-Day Moving Avg", f"${df['7-Day_MA'].iloc[-1]:,.2f}")
+col4.metric("Latest Volume", f"{df['Volume'].iloc[-1]:,}")
 
 # 5. Draw the Chart
 st.subheader("Price Trend (Last 30 Days)")
