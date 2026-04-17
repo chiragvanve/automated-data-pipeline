@@ -18,7 +18,7 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 # 2. Sidebar - Currency & Model Health
-st.sidebar.title("💎 Global Settings")
+st.sidebar.title("🌍 Global Settings")
 currency_choice = st.sidebar.selectbox("Market Currency", ["USD", "INR", "EUR", "GBP"])
 
 # Currency Mapping
