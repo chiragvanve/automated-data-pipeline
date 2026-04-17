@@ -1,0 +1,32 @@
+name: Daily Data Pipeline
+
+on:
+  schedule:
+    - cron: "0 8 * * *" # Runs automatically at 8:00 AM UTC every day
+  workflow_dispatch: # Adds a button so you can run it manually anytime
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Requirements
+        run: pip install -r requirements.txt
+
+      - name: Run Python Script
+        run: python main.py
+
+      - name: Save New Data to GitHub
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/cleaned_data.csv
+          git commit -m "Automated daily data update" || echo "No changes to commit"
+          git push
